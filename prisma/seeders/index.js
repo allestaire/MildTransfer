@@ -7,6 +7,7 @@ async function main() {
 
   await Client.user.create({
     data: {
+      name: 'My Device',
       email: 'dev@examiner.com',
       password: bcrypt.hashSync('Exam!', parseInt(process.env.SALT_ROUNDS))
     }
