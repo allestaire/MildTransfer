@@ -1,10 +1,14 @@
 import Fetch from "@/utils/Fetch";
-import { createMachine } from "xstate";
+import { assign, createMachine } from "xstate";
 
 
 export default createMachine({
+  predictableActionArguments: true,
   id: 'Signup',
   initial: 'inactive',
+  context: {
+    invalid: null
+  },
   on: {
     RESET: '.inactive'
   },
@@ -43,12 +47,22 @@ export default createMachine({
     success: {}
   }
 }, {
+  guards: {
+    isInvalid(_ctx, event) {
+      console.log(event.data)
+      return event.data.status === 422
+    }
+  },
   actions: {
-
+    setInvalid: assign({
+      invalid(_ctx, event) {
+        return event.data.body
+      }
+    })
   },
   services: {
     signingup(_ctx, event) {
-      return Fetch.post('/signup', event.data)
+      return Fetch.post('/api/signup', event.data)
     }
   }
 })
