@@ -9,7 +9,7 @@ async function main() {
     data: {
       name: 'My Device',
       email: 'dev@examiner.com',
-      password: bcrypt.hashSync('Exam!', parseInt(process.env.SALT_ROUNDS))
+      password: bcrypt.hashSync(process.env.DEFAULT_PASSWORD, parseInt(process.env.SALT_ROUNDS))
     }
   })
 }
