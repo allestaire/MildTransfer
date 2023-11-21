@@ -1,4 +1,5 @@
 import Nodemailer from 'nodemailer'
+import Variables from './Variables'
 
 /**
  * @var string to
@@ -9,8 +10,8 @@ import Nodemailer from 'nodemailer'
  */
 const send = async (to, from, subject, html, plain = '') => {
   const transferer = Nodemailer.createTransport({
-    host: 'localhost',
-    port: 1025,
+    host: Variables.MAIL_HOST,
+    port: Variables.MAIL_PORT,
     secure: false
   })
   transferer.sendMail({
