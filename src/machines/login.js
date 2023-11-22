@@ -1,5 +1,7 @@
 import Fetch from "@/utils/Fetch";
 import { assign, createMachine } from "xstate";
+import Cookies from "js-cookie";
+import Lang from '@/Lang'
 
 
 export default createMachine({
@@ -60,8 +62,8 @@ export default createMachine({
       }
     }),
     setToken(_ctx, event) {
-      const data = event.data
-      console.log(data)
+      const data = event.data.body
+      Cookies.set(Lang.getString('enums.ACCESS_TOKEN'), data.access_token)
     }
   },
   services: {

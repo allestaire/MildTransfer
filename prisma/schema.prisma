@@ -12,6 +12,8 @@ datasource db {
 
 model User {
   id             String    @id @default(uuid())
+  session_id     String?
+  session        Session?   @relation(fields: [session_id], references: [id])
   name           String
   email          String    @unique
   password       String
@@ -19,6 +21,19 @@ model User {
   deactivated_at DateTime?
   created_at     DateTime  @default(now())
   updated_at     DateTime  @default(now())
+  
 
   @@map("users")
+}
+
+model Session {
+  id               String    @id @default(uuid())
+  access_token     String    @db.VarChar(50)
+  reset_token      String    @db.VarChar(50)
+  token_expires_at DateTime?
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @default(now())
+  User             User[]
+
+  @@map("sessions")
 }

@@ -28,6 +28,11 @@ export default function Login() {
   })
 
   useEffect(() => {
+    if (Login[0].matches('success')) {
+      window.location.href = '/app'
+    }
+  }, [Login[0]])
+  useEffect(() => {
     const invalid = Login[0].context.invalid
     Helper.setFieldError(invalid, schema)
   }, [Login[0].context.invalid])
