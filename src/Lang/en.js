@@ -6,7 +6,8 @@ module.exports = {
     middleware: {
       UNAUTHORIZED_ACCESS: 'Unauthorized access.',
       INVALID_CREDENTIAL: 'Invalid credential',
-      SERVER_ERROR: 'Got some server error.'
+      SERVER_ERROR: 'Got some server error.',
+      SESSION_EXPIRED: 'Session expired'
     }
   }
 }

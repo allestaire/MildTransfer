@@ -1,9 +1,13 @@
 'use client'
 import { faker, he } from "@faker-js/faker"
-import { useEffect, useRef, useState } from "react"
+import { useContext, useEffect, useRef, useState } from "react"
+import Global from '@/machines/provider'
+import { useActor } from "@xstate/react"
 
 
 const AppPage = () => {
+  const Context = useContext(Global.State)
+  const App = useActor(Context.App)
   const containerEl = useRef(null)
   const [top, setTop] = useState(0)
   const [right, setRight] = useState(0)
@@ -16,6 +20,9 @@ const AppPage = () => {
     const y = faker.helpers.rangeToNumber({ min: 100, max: height - 50 })
     setTop(y)
     setRight(x)
+
+    App[1]('RESET')
+    App[1]('CHECK')
   }, [])
   return (
     <div ref={containerEl} className="h-[calc(100vh-66px)]" style={{ position: 'relative', background: "url(/img/map.png)", backgroundSize: 'cover' }}>

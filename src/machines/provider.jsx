@@ -2,6 +2,7 @@ const { useInterpret } = require("@xstate/react");
 const { createContext } = require("react");
 import signup from './signup'
 import login from './login'
+import app from './app';
 
 
 const State = createContext({})
@@ -15,7 +16,8 @@ const Provider = ({
     <State.Provider
       value={{
         Signup: useInterpret(signup),
-        Login: useInterpret(login)
+        Login: useInterpret(login),
+        App: useInterpret(app)
       }}
     >
       {children}

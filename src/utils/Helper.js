@@ -2,6 +2,7 @@ import Lang from '@/Lang'
 import AuthenticationFailed from '@/exceptions/AuthenticationFailed'
 import FailureException from '@/exceptions/FailureException'
 import InvalidCredential from '@/exceptions/InvalidCredential'
+import SessionExpired from '@/exceptions/SessionExpired'
 import { NextResponse } from 'next/server'
 import * as Yup from 'yup'
 
@@ -44,6 +45,12 @@ const handleException = (exception) => {
       username: [Lang.getString('api.validation.INVALID_CREDENTIAL')]
     }, {
       status: 422
+    })
+  } else if (exception instanceof SessionExpired) {
+    return NextResponse.json({
+      message: Lang.getString('api.validation.SESSION_EXPIRED')
+    }, {
+      status: 400
     })
   } else if (exception instanceof FailureException) {
     return NextResponse.json({
