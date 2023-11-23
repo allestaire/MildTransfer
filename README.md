@@ -20,11 +20,26 @@
 
 ```mermaid
 erDiagram
+    User |o..|| Session : has
+
     User {
         string(100) id PK
+        string(199) name
         string(99) email
         string(100) password
+        verified_at deactivated_at
         datetime deactivated_at
+        datetime login_at
+        datetime created_at
+        datetime updated_at
+    }
+
+    Session {
+        string(100) id PK
+        string user_id FK
+        string(50) access_token
+        string(50) access_token
+        datetime access_token
         datetime created_at
         datetime updated_at
     }
