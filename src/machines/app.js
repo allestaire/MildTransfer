@@ -1,12 +1,15 @@
 import Fetch from "@/utils/Fetch";
 import Cookies from "js-cookie";
-import { createMachine } from "xstate";
+import { assign, createMachine } from "xstate";
 import Lang from '@/Lang'
 
 
 export default createMachine({
   id: "App",
   initial: 'inactive',
+  context: {
+    user: null
+  },
   on: {
     RESET: 'inactive'
   },
@@ -20,7 +23,8 @@ export default createMachine({
       invoke: {
         src: 'checking',
         onDone: {
-          target: 'success'
+          target: 'success',
+          actions: ['setUser']
         },
         onError: 'failure'
       }
@@ -40,6 +44,11 @@ export default createMachine({
   }
 }, {
   actions: {
+    setUser: assign({
+      user(_ctx, event) {
+        return event.data.body
+      }
+    }),
     clearToken() {
       Cookies.set(Lang.getString('enums.ACCESS_TOKEN'))
     }

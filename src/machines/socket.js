@@ -43,8 +43,7 @@ export default createMachine({
   actions: {
     setSocket: assign({
       socket(_ctx, event) {
-        console.log(event.data)
-        return null
+        return event.data
       }
     }),
     disconnect(ctx) {
