@@ -16,7 +16,15 @@ export async function GET(req, res) {
       const clientId = socket.id;
       console.log('A client connected');
       console.log(`A client connected. ID: ${clientId}`);
-      io.emit('client-new', clientId);
+      // io.emit('client-new', clientId);
+      socket.on('notify-you', (data) => {
+        console.log('Notified by socket ==> ' + data)
+        io.emit('notify-you', data);
+      })
+      socket.on('client-new', (data) => {
+        console.log('New client login ==> ' + data)
+        io.emit('client-new', data);
+      })
       socket.on('message', (data) => {
         console.log('Received message:', data);
       });
