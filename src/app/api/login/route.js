@@ -51,21 +51,26 @@ export async function POST(request) {
     await schema.validate(payload, { abortEarly: false })
     const token = faker.helpers.fromRegExp(/[A-Z]{40}/i)
     const resetToken = faker.helpers.fromRegExp(/[A-Z]{40}/i)
-    await Prisma.Client.user.update({
-      where: {
-        id: user.id
-      },
-      data: {
-        session: {
-          delete: {},
-          create: {
-            access_token: token,
-            reset_token: resetToken,
-            token_expires_at: moment().add(1, 'd')
-          }
+    const data = {
+      access_token: token,
+      reset_token: resetToken,
+      token_expires_at: moment().add(1, 'd')
+    }
+    if (user.session) {
+      await Prisma.Client.session.create({
+        data: {
+          user_id: user.id,
+          ...data
         }
-      }
-    })
+      })
+    } else {
+      await Prisma.Client.session.update({
+        where: {
+          user_id: user.id,
+        },
+        data
+      })
+    }
 
     return NextResponse.json({
       access_token: token,
