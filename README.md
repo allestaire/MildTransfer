@@ -27,6 +27,18 @@
 `dev@examiner.com` | `Default123!`
 
 
+### Sequence
+
+```mermaid
+sequenceDiagram
+   Examiner->>Developer: Hi I, login
+   Developer->>Examiner: Great, will get all user to list down
+   Developer->>Examiner: Find ya in the list
+   Developer->>Examiner: I ping you, did you get it?
+   Examiner->>Developer: Yes, I received it
+```
+
+
 ### Schema
 
 ```mermaid
