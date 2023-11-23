@@ -56,7 +56,7 @@ flowchart TD
 
 ```mermaid
 erDiagram
-    User |o..|| Session : has
+    User ||..o| Session : has
 
     User {
         string(100) id PK
