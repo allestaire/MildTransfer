@@ -54,13 +54,15 @@ export async function POST(request) {
     const data = {
       access_token: token,
       reset_token: resetToken,
-      token_expires_at: moment().add(1, 'd')
+      token_expires_at: moment().add(1, 'd'),
+
     }
     if (user.session) {
       await Prisma.Client.session.create({
         data: {
+          ...data,
           user_id: user.id,
-          ...data
+          updated_at: new Date(),
         }
       })
     } else {
@@ -71,6 +73,14 @@ export async function POST(request) {
         data
       })
     }
+    await Prisma.Client.user.update({
+      where: {
+        id: user.id
+      },
+      data: {
+        login_at: new Date()
+      }
+    })
 
     return NextResponse.json({
       access_token: token,

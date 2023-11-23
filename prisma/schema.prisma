@@ -18,6 +18,7 @@ model User {
   password       String
   verified_at    DateTime?
   deactivated_at DateTime?
+  login_at       DateTime?
   created_at     DateTime  @default(now())
   updated_at     DateTime  @default(now())
 

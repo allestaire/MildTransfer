@@ -13,6 +13,9 @@ export async function GET(request) {
         id: {
           not: user.id
         },
+        login_at: {
+          not: null
+        },
         verified_at: {
           not: null
         },

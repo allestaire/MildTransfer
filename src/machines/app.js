@@ -37,6 +37,14 @@ export default createMachine({
     success: {
       on: {
         LOGOUT: {
+          target: 'logout',
+        }
+      }
+    },
+    logout: {
+      invoke: {
+        src: 'loggingout',
+        onDone: {
           actions: ['clearToken']
         }
       }
@@ -56,6 +64,9 @@ export default createMachine({
   services: {
     checking() {
       return Fetch.get('/api/auth/me')
+    },
+    loggingout() {
+      return Fetch.get('/api/auth/logout')
     }
   }
 })
