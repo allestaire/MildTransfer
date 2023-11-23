@@ -57,6 +57,7 @@ export async function POST(request) {
       },
       data: {
         session: {
+          delete: {},
           create: {
             access_token: token,
             reset_token: resetToken,

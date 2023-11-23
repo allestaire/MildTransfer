@@ -5,6 +5,7 @@ import InvalidCredential from '@/exceptions/InvalidCredential'
 import SessionExpired from '@/exceptions/SessionExpired'
 import { NextResponse } from 'next/server'
 import * as Yup from 'yup'
+import io from 'socket.io-client'
 
 const parseYupValidator = (e) => {
   let errors = {}
@@ -67,6 +68,17 @@ const handleException = (exception) => {
   })
 }
 
+const socket = async (port) => {
+  await fetch("/api/socket/io");
+  const _socket = io('ws://localhost:' + port, {});
+  _socket.on('connect', () => {
+    console.log('Connected to the server');
+  });
+
+  return _socket
+}
+
+
 export default {
-  handleException, setFieldError
+  handleException, setFieldError, socket
 }

@@ -8,6 +8,8 @@ import { useActor } from "@xstate/react"
 const AppPage = () => {
   const Context = useContext(Global.State)
   const App = useActor(Context.App)
+  const Socket = useActor(Context.Socket)
+  const _socket = Socket[0].context.socket
   const containerEl = useRef(null)
   const [top, setTop] = useState(0)
   const [right, setRight] = useState(0)
@@ -23,6 +25,9 @@ const AppPage = () => {
 
     App[1]('RESET')
     App[1]('CHECK')
+
+    Socket[1]('RESET')
+    Socket[1]('SET')
   }, [])
   return (
     <div ref={containerEl} className="h-[calc(100vh-66px)]" style={{ position: 'relative', background: "url(/img/map.png)", backgroundSize: 'cover' }}>

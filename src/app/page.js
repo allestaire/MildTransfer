@@ -7,9 +7,21 @@ import { useFormik } from "formik"
 import * as Yup from 'yup'
 import Helper from "@/utils/Helper"
 
+
+// let socket;
+//
+// async function socketInialize() {
+//   const socket = await Helper.socket(3003)
+//   socket.on('client-new', (data) => {
+//     console.log(data)
+//   })
+//
+// }
+
 export default function Login() {
   const Context = useContext(Global.State)
   const Login = useActor(Context.Login)
+  const Socket = useActor(Context.Socket)
   const schema = useFormik({
     initialValues: {
       email: '',
@@ -38,6 +50,13 @@ export default function Login() {
   }, [Login[0].context.invalid])
   useEffect(() => {
     Login[1]('RESET')
+    Socket[1]('RESET')
+    Socket[1]('SET')
+
+    // socketInialize()
+    // return () => {
+    //   socket.disconnect()
+    // }
   }, [])
   return (
     <section className="bg-gray-50 dark:bg-gray-900">

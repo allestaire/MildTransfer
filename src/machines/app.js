@@ -1,5 +1,7 @@
 import Fetch from "@/utils/Fetch";
+import Cookies from "js-cookie";
 import { createMachine } from "xstate";
+import Lang from '@/Lang'
 
 
 export default createMachine({
@@ -28,9 +30,20 @@ export default createMachine({
         CHECK: 'check'
       }
     },
-    success: {}
+    success: {
+      on: {
+        LOGOUT: {
+          actions: ['clearToken']
+        }
+      }
+    }
   }
 }, {
+  actions: {
+    clearToken() {
+      Cookies.set(Lang.getString('enums.ACCESS_TOKEN'))
+    }
+  },
   services: {
     checking() {
       return Fetch.get('/api/auth/me')
