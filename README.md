@@ -1,6 +1,6 @@
 ## Meld-CX Exam
 
-
+![Demo](./demo.gif)
 
 ### Requirements
 
