@@ -39,6 +39,19 @@ sequenceDiagram
 ```
 
 
+### Flowchart (notification)
+
+```mermaid
+flowchart TD
+    A[Login] --> B{Notification event}
+    B -->|New client| C((Users))
+    
+    C -->|Clicked| D[Listed User]
+    D -->|Notify| B
+    B -->|Notified| E(Alerted)
+```
+
+
 ### Schema
 
 ```mermaid
