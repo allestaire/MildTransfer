@@ -6,6 +6,8 @@ import moment from "moment";
 import { NextResponse } from "next/server";
 import * as Yup from 'yup'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request) {
   try {
     const payload = await request.json()
