@@ -7,6 +7,11 @@
 - Node >=20.9
 - MySQL 8
 
+### TechStack
+
+- WebSocket
+- NextJS
+
 
 ### Start
 
