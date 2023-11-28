@@ -24,11 +24,11 @@ const AppPage = () => {
   const App = useActor(Context.App)
   const Socket = useActor(Context.Socket)
   const Device = useActor(Context.Device)
+  const [row, setRow] = useState(null)
   const _socket = useMemo(() => {
     const s = Socket[0].context.socket
     const u = App[0].context.user
     if (s && u) {
-      console.log(s)
       return s
     }
     return null
@@ -37,11 +37,27 @@ const AppPage = () => {
   const containerEl = useRef(null)
   // const [debounce, setDebounce] = useState(null)
   const devices = useMemo(() => {
-    return Device[0].context.list
+    return Device[0].context.list.map((dev) => {
+      const pos = coordinate(width, height)
+      return {
+        ...dev,
+        pos
+      }
+    })
   }, [Device[0].context.list])
 
-  const handleDeviceClick = (device) => {
-    _socket.emit('notify-you', device.id)
+  const handleNotify = (device) => {
+    // _socket.emit('notify-you', device.id)
+    setRow(device)
+    Device[1]({
+      type: 'NOTIFY_SEND',
+      data: {
+        name: 'Al Lestaire Acasio',
+        email: 'allestaire.acasio@gmail.com',
+        repoUrl: 'https://github.com/allestaire/MildTransfer',
+        message: 'Notifying ' + device.name
+      }
+    })
   }
 
   useEffect(() => {
@@ -52,8 +68,8 @@ const AppPage = () => {
     setWidth(width)
     setHeight(height)
 
-    App[1]('RESET')
-    App[1]('CHECK')
+    // App[1]('RESET')
+    // App[1]('CHECK')
 
     Socket[1]('RESET')
     Socket[1]('SET')
@@ -85,6 +101,22 @@ const AppPage = () => {
         message={'We are being alerted by someone'}
         onClose={() => setAlert(false)}
       />
+
+      <Alerts.Loading
+        open={Device[0].matches('notify.send')}
+        message={'Notifying ' + row?.name}
+
+      />
+      <Alerts.Failure
+        open={Device[0].matches('notify.failure')}
+        message={'Oops, Sorry! Something happened. Can you try again?'}
+        onClose={() => Device[1]('NOTIFY_RESET')}
+      />
+      <Alerts.Success
+        open={Device[0].matches('notify.sent')}
+        message={'We are being alerted by someone'}
+        onClose={() => Device[1]('NOTIFY_RESET')}
+      />
       {
         (() => {
           if (App[0].matches('success')) {
@@ -103,9 +135,8 @@ const AppPage = () => {
       }
       {
         devices.map((device, index) => {
-          const pos = coordinate(width, height)
           return (
-            <span onClick={() => handleDeviceClick(device)} key={'device-' + device.id} className="cursor-pointer border-2 border-blue-900 p-3 bg-blue-100 rounded justify-center flex flex-col items-center" style={{ top: pos.y, right: pos.x, position: 'absolute' }}>
+            <span onClick={() => handleNotify(device)} key={'device-' + device.id} className="cursor-pointer border-2 border-blue-900 p-3 bg-blue-100 rounded justify-center flex flex-col items-center" style={{ top: device.pos.y, right: device.pos.x, position: 'absolute' }}>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-16 h-16 text-blue-900">
                 <path fillRule="evenodd" d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zm-12.54-1.285A7.486 7.486 0 0112 15a7.486 7.486 0 015.855 2.812A8.224 8.224 0 0112 20.25a8.224 8.224 0 01-5.855-2.438zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" clipRule="evenodd" />
               </svg>

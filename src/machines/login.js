@@ -2,6 +2,7 @@ import Fetch from "@/utils/Fetch";
 import { assign, createMachine } from "xstate";
 import Cookies from "js-cookie";
 import Lang from '@/Lang'
+import Variables from "@/utils/Variables";
 
 
 export default createMachine({
@@ -62,13 +63,16 @@ export default createMachine({
       }
     }),
     setToken(_ctx, event) {
+      console.log(event.data)
       const data = event.data.body
-      Cookies.set(Lang.getString('enums.ACCESS_TOKEN'), data.access_token)
+      // Cookies.set(Lang.getString('enums.ACCESS_TOKEN'), data.access_token)
+      Cookies.set(Lang.getString('enums.ACCESS_TOKEN'), data)
     }
   },
   services: {
     loggingin(_ctx, event) {
-      return Fetch.post('/api/login', event.data)
+      // return Fetch.post('/api/login', event.data)
+      return Fetch.post('login', event.data)
     }
   }
 })

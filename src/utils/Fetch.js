@@ -15,7 +15,7 @@ const parseHeaders = (headers) => {
     const { 'Content-Type': contentType, ...clearHeader } = newHeaders
     newHeaders = { ...clearHeader }
   }
-  newHeaders['Accept'] = 'application/json'
+  newHeaders['Accept'] = 'text/html'
   return newHeaders
 }
 
@@ -34,8 +34,14 @@ const post = async (url, data = {}, params = {}, headers = {}) => {
   })
   const status = response.status
   let body = null
+  const contentType = response.headers.get('Content-Type')
   try {
-    body = await response.json()
+    if (contentType.indexOf('text/html') > -1) {
+      body = await response.text()
+    } else {
+      body = await response.json()
+    }
+
   } catch (e) {
     body = await response.body
   }
@@ -56,6 +62,7 @@ const get = async (url, params = {}, headers = {}) => {
     headers: parseHeaders(headers),
   })
   const status = response.status
+
   const body = await response.json()
   const newResponse = { status, body }
 

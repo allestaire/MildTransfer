@@ -2,6 +2,7 @@
 const nextConfig = {
   reactStrictMode: false,
   env: {
+    API_URL: process.env.API_URL || '/',
     IS_DEV: process.env.NODE_ENV === 'development',
     DEFAULT_PASSWORD: process.env.DEFAULT_PASSWORD || ''
   },
